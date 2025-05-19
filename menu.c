@@ -26,9 +26,6 @@ void menu_principal(Tarefa *tarefas, int qtd_de_tarefas){
         guardar_tarefas(); 
         opcao = -1;
       break;
-      default:
-        printf("Opção inválida.\n");
-        opcao = -1;
     }
   }while(opcao != -1);
 }
