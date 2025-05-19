@@ -22,12 +22,15 @@ void menu_principal(Tarefa *tarefas, int qtd_de_tarefas){
       case 2: eliminar_tarefas(); break;
       case 3: menu_listar(tarefas, qtd_de_tarefas); break;
       case 4: alterar_tarefas(); break;
-      case 0: guardar_tarefas(); break;
+      case 0: 
+        guardar_tarefas(); 
+        opcao = -1;
+      break;
       default:
         printf("Opção inválida.\n");
         opcao = -1;
     }
-  }while(opcao == -1);
+  }while(opcao != -1);
 }
 
 void menu_listar(Tarefa *tarefas, int qtd_de_tarefas) {
@@ -110,4 +113,6 @@ void menu_listar(Tarefa *tarefas, int qtd_de_tarefas) {
     printf("\n");
     }
   }
+  printf("Pressione qualquer tecla para voltar ao menu principal...");
+  system("pause>nul");
 }
