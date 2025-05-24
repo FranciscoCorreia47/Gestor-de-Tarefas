@@ -5,7 +5,7 @@
 #include "tarefa.h"
 
 //Define uma macro constante com o nome do arquivo onde as tarefas serão armazenadas.
-#define ARQUIVO_TAREFAS "arquivo.txt" 
+#define ARQUIVO_TAREFAS "ficheiro.txt" 
 
 
 int salvar_tarefas(Tarefa *tarefas, int qtd); //Declara a função que salva tarefas no arquivo.
