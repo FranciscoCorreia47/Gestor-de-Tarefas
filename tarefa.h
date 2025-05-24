@@ -10,7 +10,6 @@ typedef struct {
     int concluida; // 0 = não, 1 = sim
 } Tarefa;
 
-void listar_tarefas(Tarefa *tarefas, int qtd);
 int adicionar_tarefa(Tarefa *tarefas, int *qtd, const char *descricao);
 int concluir_tarefa(Tarefa *tarefas, int qtd, int id);
 int remover_tarefa(Tarefa *tarefas, int *qtd, int id);
