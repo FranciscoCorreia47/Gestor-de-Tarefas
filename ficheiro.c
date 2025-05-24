@@ -7,8 +7,7 @@ int salvar_tarefas(Tarefa *tarefas, int qtd) {
     if (!f) return 0;//Se f for NULL, significa que o arquivo não pôde ser aberto;A função retorna 0 indicando falha.
 
     for (int i = 0; i < qtd; i++) {
-        fprintf(f, "%d|%s|%d\n", tarefas[i].id, tarefas[i].descricao, tarefas[i].concluida);// Escreve cada tarefa no arquivo em formato texto, separando os campos com |.id: número da tarefa.descricao: texto descritivo.concluida: 
-      flag (0 ou 1).// indicar se a tarefa foi concluída ou não.
+        fprintf(f, "%d|%s|%d\n", tarefas[i].id, tarefas[i].descricao, tarefas[i].concluida);// Escreve cada tarefa no arquivo em formato texto, separando os campos com |.id: número da tarefa.descricao: texto descritivo.concluida: flag (0 ou 1) indicar se a tarefa foi concluída ou não.
     }
     fclose(f); //Fecha o arquivo após a escrita.
 
