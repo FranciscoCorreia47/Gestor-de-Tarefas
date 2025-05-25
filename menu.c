@@ -1,5 +1,6 @@
 #include "menu.h"
 
+// Função para o menu principal do programa
 void menu_principal(Tarefa *tarefas, int qtd_de_tarefas){
   short int opcao;
 
@@ -12,16 +13,18 @@ void menu_principal(Tarefa *tarefas, int qtd_de_tarefas){
     printf("|  [2] Eliminar Tarefas     |\n");
     printf("|  [3] Listar Tarefas       |\n");
     printf("|  [4] Alterar Tarefas      |\n");
+    printf("|  [5] Concluir Tarefas     |\n");
     printf("|  [0] Sair                 |\n");
     printf("+---------------------------+\n");
     printf("|\n+-> ");
     scanf("%hd", &opcao);
 
     switch(opcao){
-      case 1: criar_tarefas(); break;
-      case 2: eliminar_tarefas(); break;
+      case 1: adicionar_tarefa(tarefas, qtd_de_tarefas); break;
+      case 2: remover_tarefa(tarefas, qtd_de_tarefas); break;
       case 3: menu_listar(tarefas, qtd_de_tarefas); break;
       case 4: alterar_tarefas(); break;
+      case 5: concluir_tarefa(tarefas, qtd_de_tarefas); break;
       case 0: 
         guardar_tarefas(); 
         opcao = -1;
@@ -30,8 +33,9 @@ void menu_principal(Tarefa *tarefas, int qtd_de_tarefas){
   }while(opcao != -1);
 }
 
+// Função para mostrar as tarefas de forma organizada e padrodinzada
 void menu_listar(Tarefa *tarefas, int qtd_de_tarefas) {
-  int printed;  
+  int printed;
 
   for (int i = 0; i < qtd_de_tarefas; i++) {
     for (int j = 0; j < ALTURA; j++) {
@@ -54,25 +58,25 @@ void menu_listar(Tarefa *tarefas, int qtd_de_tarefas) {
              printf(" "); // Imprimir espaços até o fim da linha
            }
         else if (j == 3) {
-             printf(" %s", tarefas[i].nome);
+             printf(" %s", tarefas[i].nome); // Imprimir o nome da tarefa
              printed = 1 + strlen(tarefas[i].nome);
              for (int s = printed; s < LARGURA - 1; s++)
-               printf(" ");
+               printf(" "); // Imprimir espaços até o fim da linha
           }
         else if (j == 5) {
           printf(" ");
           int max_len = LARGURA - 3;
-                
+          
           for (int s = 0; s < max_len && tarefas[i].descricao[s] != '\0'; s++)
-            printf("%c", tarefas[i].descricao[s]);
+            printf("%c", tarefas[i].descricao[s]); // Imprimir a primeira parte da descrição (Caso seja maior que LARGURA (55))
 
           printed = strlen(tarefas[i].descricao);
-                
+          
           if (printed > max_len)
             printed = max_len;
                 
           for (int s = printed + 1; s < LARGURA - 1; s++)
-            printf(" ");
+            printf(" "); // Preencher o resto da linha com espaços
         }
         else if (j == 6) {
           printf(" ");
@@ -86,8 +90,10 @@ void menu_listar(Tarefa *tarefas, int qtd_de_tarefas) {
           printed = remaining_length;
           
           // Se foi imprimida mais descrição, garantir que não excede o limite da tabela
-          if (printed > LARGURA - 3)
+          if (printed > LARGURA - 3){
             printed = LARGURA - 3;
+            j--; // Decrementar j para permitir a impressão da separação (linha par)
+          }
           // Preencher o resto da linha
           for (int s = printed + 1; s < LARGURA - 1; s++)
             printf(" ");
