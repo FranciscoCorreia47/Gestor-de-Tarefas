@@ -4,6 +4,7 @@
 #define MAX_TAREFAS 100
 #define MAX_DESC 100
 
+// Struct que guarda as tarefas durante a execução do programa
 typedef struct {
     int id;
     char descricao[MAX_DESC];
