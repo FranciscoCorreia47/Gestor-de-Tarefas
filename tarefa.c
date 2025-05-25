@@ -14,7 +14,10 @@ int adicionar_tarefa(Tarefa *tarefas, int *qtd, const char *descricao) {
 }
 
 // A função para marcar uma tarefa da lista existente como concluída
-int concluir_tarefa(Tarefa *tarefas, int qtd, int id) {
+int concluir_tarefa(Tarefa *tarefas, int qtd) {
+    int id;
+    printf("Insira o id da tarefa a concluir: ");
+    scanf("%d", &id);
     id >= qtd ? return 0 : tarefas[id].concluida = 1; // Caso o id fornecido não corresponder a uma tarefa existente, devolver 0
     return 1;
 }
