@@ -1,4 +1,4 @@
-ifndef FICHEIRO_H
+#ifndef FICHEIRO_H
 #define FICHEIRO_H
 
 
