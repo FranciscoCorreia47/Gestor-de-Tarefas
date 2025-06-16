@@ -2,7 +2,7 @@
 #include "ficheiro.h"
 
 
-#define FILENAME "tarefas.dat"
+#define FILENAME "tarefas.txt"
 
 
 void carregar_tarefas(Tarefa *tarefas, int *qtd) {
