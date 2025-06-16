@@ -1,18 +1,26 @@
 #ifndef TAREFA_H
 #define TAREFA_H
 
-#define MAX_TAREFAS 100
-#define MAX_DESC 100
 
-// Struct que guarda as tarefas durante a execução do programa
+#define MAX_TAREFAS 100
+#define TAM_NOME 50
+#define TAM_DESC 256
+#define ALTURA 9
+#define LARGURA 55
+
+
 typedef struct {
-    int id;
-    char descricao[MAX_DESC];
-    int concluida; // 0 = não, 1 = sim
+  char nome[TAM_NOME];
+  char descricao[TAM_DESC];
+  int concluida;
 } Tarefa;
 
-int adicionar_tarefa(Tarefa *tarefas, int *qtd, const char *descricao);
-int concluir_tarefa(Tarefa *tarefas, int qtd, int id);
-int remover_tarefa(Tarefa *tarefas, int *qtd, int id);
 
-#endif // TAREFA_H
+void adicionar_tarefa(Tarefa *tarefas, int *qtd);
+void remover_tarefa(Tarefa *tarefas, int *qtd);
+void alterar_tarefas(Tarefa *tarefas, int qtd);
+void concluir_tarefa(Tarefa *tarefas, int qtd);
+
+
+#endif
+
