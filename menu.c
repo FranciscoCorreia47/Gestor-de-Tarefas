@@ -1,11 +1,18 @@
-#include "menu.h"
+#include <stdio.h>    
+#include <stdlib.h>    
+#include <string.h>    
+#include "menu.h"      // Declarações dos menus
+#include "tarefa.h"    // Estrutura e funções de tarefas
+#include "ficheiro.h"  // Leitura/escrita de ficheiros
 
-// Função para o menu principal do programa
-void menu_principal(Tarefa *tarefas, int qtd_de_tarefas){
+// Função que apresenta o menu principal ao utilizador e executa as ações conforme opção escolhida.
+void menu_principal(Tarefa *tarefas, int *qtd){
   short int opcao;
 
   do{
-    system("cls");
+    system("cls||clear");  // Limpa o terminal (compatível com Windows e Unix)
+
+    // Interface textual do menu
     printf("+---------------------------+\n");
     printf("|     Gestor de Tarefas     |\n");
     printf("+---------------------------+\n");
@@ -17,105 +24,82 @@ void menu_principal(Tarefa *tarefas, int qtd_de_tarefas){
     printf("|  [0] Sair                 |\n");
     printf("+---------------------------+\n");
     printf("|\n+-> ");
-    scanf("%hd", &opcao);
+    scanf("%hd", &opcao);  // Lê a opção escolhida
 
+    // Executa a ação correspondente
     switch(opcao){
-      case 1: adicionar_tarefa(tarefas, qtd_de_tarefas); break;
-      case 2: remover_tarefa(tarefas, qtd_de_tarefas); break;
-      case 3: menu_listar(tarefas, qtd_de_tarefas); break;
-      case 4: alterar_tarefas(); break;
-      case 5: concluir_tarefa(tarefas, qtd_de_tarefas); break;
-      case 0: 
-        guardar_tarefas(); 
-        opcao = -1;
-      break;
+      case 1: adicionar_tarefa(tarefas, qtd); break;
+      case 2: remover_tarefa(tarefas, qtd); break;
+      case 3: menu_listar(tarefas, *qtd); break;
+      case 4: alterar_tarefas(tarefas, *qtd); break;
+      case 5: concluir_tarefa(tarefas, *qtd); break;
+      case 0:
+        guardar_tarefas(tarefas, *qtd);  // Guarda os dados antes de sair
+        opcao = -1;                      // Encerra o ciclo
+        break;
     }
   }while(opcao != -1);
 }
 
-// Função para mostrar as tarefas de forma organizada e padrodinzada
-void menu_listar(Tarefa *tarefas, int qtd_de_tarefas) {
+// Função que lista todas as tarefas de forma visualmente organizada
+void menu_listar(Tarefa *tarefas, int qtd) {
   int printed;
 
-  for (int i = 0; i < qtd_de_tarefas; i++) {
+  for (int i = 0; i < qtd; i++) {
     for (int j = 0; j < ALTURA; j++) {
-      // Linhas de separação (pares) 
       if (j % 2 == 0 && j != 6) {
+        // Linha de borda horizontal
         printf("+");
-        for (int k = 1; k < LARGURA; k++)
-          printf("-");
+        for (int k = 1; k < LARGURA; k++) printf("-");
         printf("+\n");
-      }
-      // Linhas de conteúdo (ímpares)
-      else {
+      } else {
         printf("|");
-
         if (j == 1) {
-           printf(" Tarefa %d", i);
-           // Para manter as bordas retas mesmo quando i tem 2 dígitos (a condição devolve 1 se verdadeira e 0 se falsa)
-           printed = 9 + (i > 9);
-           for (int s = printed; s < LARGURA - 1; s++)
-             printf(" "); // Imprimir espaços até o fim da linha
-           }
-        else if (j == 3) {
-             printf(" %s", tarefas[i].nome); // Imprimir o nome da tarefa
-             printed = 1 + strlen(tarefas[i].nome);
-             for (int s = printed; s < LARGURA - 1; s++)
-               printf(" "); // Imprimir espaços até o fim da linha
-          }
-        else if (j == 5) {
+          // Linha com número da tarefa
+          printf(" Tarefa %d", i);
+          printed = 9 + (i > 9);
+          for (int s = printed; s < LARGURA - 1; s++) printf(" ");
+        } else if (j == 3) {
+          // Linha com nome da tarefa
+          printf(" %s", tarefas[i].nome);
+          printed = 1 + strlen(tarefas[i].nome);
+          for (int s = printed; s < LARGURA - 1; s++) printf(" ");
+        } else if (j == 5) {
+          // Primeira linha da descrição
           printf(" ");
           int max_len = LARGURA - 3;
-          
           for (int s = 0; s < max_len && tarefas[i].descricao[s] != '\0'; s++)
-            printf("%c", tarefas[i].descricao[s]); // Imprimir a primeira parte da descrição (Caso seja maior que LARGURA (55))
-
+            printf("%c", tarefas[i].descricao[s]);
           printed = strlen(tarefas[i].descricao);
-          
-          if (printed > max_len)
-            printed = max_len;
-                
-          for (int s = printed + 1; s < LARGURA - 1; s++)
-            printf(" "); // Preencher o resto da linha com espaços
-        }
-        else if (j == 6) {
+          if (printed > max_len) printed = max_len;
+          for (int s = printed + 1; s < LARGURA - 1; s++) printf(" ");
+        } else if (j == 6) {
+          // Segunda linha da descrição, se necessário
           printf(" ");
-          int remaining_length = strlen(tarefas[i].descricao) - (LARGURA - 3); // Verifica se ainda sobra texto, e se sim: 
-
-          // Imprime o resto da descrição
-          if (remaining_length > 0) {
-            for (int s = LARGURA - 3; s < LARGURA - 3 + remaining_length; s++)
+          int remaining = strlen(tarefas[i].descricao) - (LARGURA - 3);
+          if (remaining > 0) {
+            for (int s = LARGURA - 3; s < LARGURA - 3 + remaining; s++)
               printf("%c", tarefas[i].descricao[s]);
           }
-          printed = remaining_length;
-          
-          // Se foi imprimida mais descrição, garantir que não excede o limite da tabela
-          if (printed > LARGURA - 3){
-            printed = LARGURA - 3;
-            j--; // Decrementar j para permitir a impressão da separação (linha par)
-          }
-          // Preencher o resto da linha
-          for (int s = printed + 1; s < LARGURA - 1; s++)
-            printf(" ");
-        }
-        else if (j == 7) {
-          // Se tarefas[i].concluida = 0 imprime "Status: Pendente" se for 1, "Concluída"
+          printed = remaining;
+          if (printed > LARGURA - 3) printed = LARGURA - 3;
+          for (int s = printed + 1; s < LARGURA - 1; s++) printf(" ");
+        } else if (j == 7) {
+          // Linha de status
           printf(" Status: %s", tarefas[i].concluida ? "Concluída" : "Pendente ");
           printed = strlen(" Status: Concluída");
-          // Preencher o resto da linha
-          for (int s = printed; s < LARGURA - 1; s++) 
-            printf(" ");
+          for (int s = printed; s < LARGURA - 1; s++) printf(" ");
+        } else {
+          // Linhas em branco
+          for (int s = 0; s < LARGURA - 1; s++) printf(" ");
         }
-        else {
-          // Caso hajam linhas a mais, imprimir uma linha em branco
-          for (int s = 0; s < LARGURA - 1; s++) 
-            printf(" ");
-        }
-      printf("|\n");
+        printf("|\n");
       }
-    printf("\n");
     }
+    printf("\n");
   }
+
+  // Pausa antes de retornar ao menu principal
   printf("Pressione qualquer tecla para voltar ao menu principal...");
-  system("pause>nul");
+  system("pause > nul || read -n 1 -s");
 }
