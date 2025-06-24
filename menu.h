@@ -1,10 +1,13 @@
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
+#ifndef MENU_H
+#define MENU_H  // Evita múltiplas inclusões do cabeçalho
 
+#include "tarefa.h"  // Necessário para manipular a estrutura Tarefa
 
-#define ALTURA  10
-#define LARGURA 55
+// Exibe o menu principal da aplicação, onde o utilizador pode escolher
+// opções como adicionar, remover, listar ou alterar tarefas.
+void menu_principal(Tarefa *tarefas, int *qtd);
 
-void menu_principal(Tarefa *tarefas, int qtd_de_tarefas);
-void menu_listar(Tarefa *tarefas, int qtd_de_tarefas);
+// Exibe todas as tarefas atualmente armazenadas na memória.
+void menu_listar(Tarefa *tarefas, int qtd);
+
+#endif  // Fim da proteção contra múltiplas inclusões
