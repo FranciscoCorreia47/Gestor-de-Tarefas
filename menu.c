@@ -11,22 +11,25 @@ void menu_principal(Tarefa *tarefas, int *qtd){
 
   do{
     system("cls||clear");  // Limpa o terminal (compatível com Windows e Unix)
-
+    printf("---Seja Bem Vindo ao Gestor de Tarefas!---");
+    printf("\n");
+    printf("      O que pretende fazer?      ");
+    printf("\n");
     // Interface textual do menu
-    printf("+---------------------------+\n");
-    printf("|     Gestor de Tarefas     |\n");
-    printf("+---------------------------+\n");
-    printf("|  [1] Adicionar Tarefas    |\n");
-    printf("|  [2] Eliminar Tarefas     |\n");
-    printf("|  [3] Listar Tarefas       |\n");
-    printf("|  [4] Alterar Tarefas      |\n");
-    printf("|  [5] Concluir Tarefas     |\n");
-    printf("|  [0] Sair                 |\n");
-    printf("+---------------------------+\n");
+    printf("+----------------------------------+\n");
+    printf("|        Gestor de Tarefas         |\n");
+    printf("+----------------------------------+\n");
+    printf("|       [1] Adicionar Tarefas      |\n");
+    printf("|       [2] Eliminar Tarefas       |\n");
+    printf("|       [3] Listar Tarefas         |\n");
+    printf("|       [4] Alterar Tarefas        |\n");
+    printf("|       [5] Concluir Tarefas       |\n");
+    printf("|       [0] Sair                   |\n");
+    printf("+----------------------------------+\n");
     printf("|\n+-> ");
     scanf("%hd", &opcao);  // Lê a opção escolhida
 
-    // Executa a ação correspondente
+    // Executa a ação correspondente  
     switch(opcao){
       case 1: adicionar_tarefa(tarefas, qtd); break;
       case 2: remover_tarefa(tarefas, qtd); break;
