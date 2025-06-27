@@ -14,12 +14,14 @@ O código é todo escrito em C, compilado utilizando o GCC, e encontra-se dividi
 É importante notar que os dados são armazenados no `ficheiro.dat` em formato binário, facilitando a escrita/leitura de e para o array de structs no programa.
 
 O struct das tarefas apresenta a seguinte estrutura:
-`` `typedef struct {
+```C
+typedef struct {
   char nome[TAM_NOME];            // Nome da tarefa
   char descricao[TAM_DESC];      // Descrição detalhada da tarefa
   int concluida;              // Indica se a tarefa foi concluída (1 = sim, 0 = não)
 } Tarefa;
-Tarefa tarefas[MAX_TAREFAS];` ``
+Tarefa tarefas[MAX_TAREFAS];
+```
 
 Sendo que `TAM_NOME = 50`, `TAM_DESC = 128` e `MAX_TAREFAS = 100`
 
