@@ -24,14 +24,6 @@ void adicionar_tarefa(Tarefa *tarefas, int *qtd) {
     fgets(tarefas[*qtd].descricao, TAM_DESC, stdin);
     tarefas[*qtd].descricao[strcspn(tarefas[*qtd].descricao, "\n")] = '\0';
 
-    printf("Responsável: ");
-    fgets(tarefas[*qtd].responsavel, TAM_RES, stdin);
-    tarefas[*qtd].responsavel[strcspn(tarefas[*qtd].responsavel, "\n")] = '\0';
-
-    printf("Status: ");
-    fgets(tarefas[*qtd].status, TAM_STATUS, stdin);
-    tarefas[*qtd].status[strcspn(tarefas[*qtd].status, "\n")] = '\0';
-
     tarefas[*qtd].concluida = 0;  // Inicialmente, a tarefa ainda não está concluída
     (*qtd)++;  // Incrementa o número de tarefas
 }
@@ -70,14 +62,6 @@ void alterar_tarefas(Tarefa *tarefas, int qtd) {
     printf("Nova descrição: ");
     fgets(tarefas[id].descricao, TAM_DESC, stdin);
     tarefas[id].descricao[strcspn(tarefas[id].descricao, "\n")] = '\0';
-
-    printf("Novo responsável: ");
-    fgets(tarefas[id].responsavel, TAM_RES, stdin);
-    tarefas[id].responsavel[strcspn(tarefas[id].responsavel, "\n")] = '\0';
-
-    printf("Novo status: ");
-    fgets(tarefas[id].status, TAM_STATUS, stdin);
-    tarefas[id].status[strcspn(tarefas[id].status, "\n")] = '\0';
 }
 
 // Marca uma tarefa como concluída com base no ID

@@ -44,65 +44,69 @@ void menu_principal(Tarefa *tarefas, int *qtd){
   }while(opcao != -1);
 }
 
-// Função que lista todas as tarefas de forma visualmente organizada
+//Função auxiliar de menu_listar, que imprime a linha de separação, no estilo "+----+"
+void print_linha_separacao() {
+    printf("+");
+    for (int i = 0; i < LARGURA - 2; i++) printf("-");
+    printf("+\n");
+}
+
+//Função auxiliar de menu_listar, que imprime texto centralizado, baseado numa largura
+void print_centralizado(const char *texto, int largura) {
+    int comprimento = strlen(texto);
+    int alinhamento = (largura - comprimento) / 2;
+    printf("| %*s%s%*s |\n", alinhamento, "", texto, (largura - comprimento - alinhamento) - 2, "");
+}
+
+//Função auxiliar de menu_listar, que imprime texto alinhado à esquerda, baseado numa largura
+void print_esquerda(const char *texto, int largura) {
+    printf("| %-*s |\n", largura - 4, texto);
+}
+
 void menu_listar(Tarefa *tarefas, int qtd) {
-  int printed;
+    for (int i = 0; i < qtd; i++) {
+        print_linha_separacao();
 
-  for (int i = 0; i < qtd; i++) {
-    for (int j = 0; j < ALTURA; j++) {
-      if (j % 2 == 0 && j != 6) {
-        // Linha de borda horizontal
-        printf("+");
-        for (int k = 1; k < LARGURA; k++) printf("-");
-        printf("+\n");
-      } else {
-        printf("|");
-        if (j == 1) {
-          // Linha com número da tarefa
-          printf(" Tarefa %d", i);
-          printed = 9 + (i > 9);
-          for (int s = printed; s < LARGURA - 1; s++) printf(" ");
-        } else if (j == 3) {
-          // Linha com nome da tarefa
-          printf(" %s", tarefas[i].nome);
-          printed = 1 + strlen(tarefas[i].nome);
-          for (int s = printed; s < LARGURA - 1; s++) printf(" ");
-        } else if (j == 5) {
-          // Primeira linha da descrição
-          printf(" ");
-          int max_len = LARGURA - 3;
-          for (int s = 0; s < max_len && tarefas[i].descricao[s] != '\0'; s++)
-            printf("%c", tarefas[i].descricao[s]);
-          printed = strlen(tarefas[i].descricao);
-          if (printed > max_len) printed = max_len;
-          for (int s = printed + 1; s < LARGURA - 1; s++) printf(" ");
-        } else if (j == 6) {
-          // Segunda linha da descrição, se necessário
-          printf(" ");
-          int remaining = strlen(tarefas[i].descricao) - (LARGURA - 3);
-          if (remaining > 0) {
-            for (int s = LARGURA - 3; s < LARGURA - 3 + remaining; s++)
-              printf("%c", tarefas[i].descricao[s]);
-          }
-          printed = remaining;
-          if (printed > LARGURA - 3) printed = LARGURA - 3;
-          for (int s = printed + 1; s < LARGURA - 1; s++) printf(" ");
-        } else if (j == 7) {
-          // Linha de status
-          printf(" Status: %s", tarefas[i].concluida ? "Concluída" : "Pendente ");
-          printed = strlen(" Status: Concluída");
-          for (int s = printed; s < LARGURA - 1; s++) printf(" ");
-        } else {
-          // Linhas em branco
-          for (int s = 0; s < LARGURA - 1; s++) printf(" ");
+        // Imprimir o ID
+        char string_id[20];
+        snprintf(string_id, sizeof(string_id), "Tarefa %d", i);
+        print_centralizado(string_id, LARGURA - 2);
+
+        print_linha_separacao();
+
+        // Imprimir o nome
+        print_esquerda(tarefas[i].nome, LARGURA);
+
+        print_linha_separacao();
+
+        // Imprimir a descrição
+        char desc[TAM_DESC + 1];
+        strncpy(desc, tarefas[i].descricao, TAM_DESC);
+        desc[TAM_DESC] = '\0';
+
+        int comp_desc = strlen(desc);
+        int tam_max_linha = LARGURA - 4; // -4 contando com "| " e " |"
+
+        for (int pos = 0; pos < comp_desc; pos += tam_max_linha) {
+            char linha[tam_max_linha + 1];
+            strncpy(linha, desc + pos, tam_max_linha);
+            linha[tam_max_linha] = '\0';
+            print_esquerda(linha, LARGURA);
         }
-        printf("|\n");
-      }
-    }
-    printf("\n");
-  }
 
-  // Pausa antes de retornar ao menu principal
-  printf("Pressione qualquer tecla para voltar ao menu principal...");
-  system("pause > nul || read -n 1 -s");
+        print_linha_separacao();
+
+        // Imprimir o Status
+        char status[20];
+        snprintf(status, sizeof(status), "Status: %s", 
+                tarefas[i].concluida ? "Concluída" : "Pendente");
+        print_esquerda(status, LARGURA);
+
+        print_linha_separacao();
+        printf("\n"); // Espaço entre tarefas
+    }
+
+    printf("Pressione Enter para continuar...");
+    limpar_entrada();
+    getchar();
 }
