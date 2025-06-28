@@ -4,9 +4,7 @@
 // Constantes utilizadas para limitar tamanhos de campos e do sistema em geral
 #define MAX_TAREFAS 100      
 #define TAM_NOME 50          
-#define TAM_DESC 128         
-#define TAM_RES 40           
-#define TAM_STATUS 20        
+#define TAM_DESC 128      
 #define ALTURA 9             
 #define LARGURA 70
 
