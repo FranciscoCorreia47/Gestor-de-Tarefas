@@ -1,6 +1,8 @@
 # Gestor-de-Tarefas
 Projeto final do módulo de programação do curso de ASIBD, na EICM, no ano letivo 2024/2025
 
+Autores: [Francisco Correia](github.com/FranciscoCorreia47) e [Pedro Almeida](github.com/Pedroboot)
+
 ## Visão geral
 Este trabalho pretende a criação de um gestor de tarefas, utilizando a Linguagem C, com o principal objetivo de conseguir a persistência dos dados, por meio de um ficheiro externo onde os mesmos são guardados.
 
